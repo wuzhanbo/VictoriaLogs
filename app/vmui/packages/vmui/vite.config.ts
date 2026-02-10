@@ -26,6 +26,28 @@ const getProxy = (): Record<string, ProxyOptions> | undefined => {
         }
       };
     }
+    case "LOCAL": {
+      return {
+        "^/select/(?!vmui)": {
+          target: "http://192.168.1.20:9428",
+          changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on("error", (err) => {
+              console.error("[proxy error]", err.message);
+            });
+          }
+        },
+        "^/flags": {
+          target: "http://192.168.1.20:9428",
+          changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on("error", (err) => {
+              console.error("[proxy error]", err.message);
+            });
+          }
+        }
+      };
+    }
     default: {
       return undefined;
     }
@@ -41,9 +63,12 @@ export default defineConfig(({ mode }) => {
     ],
     assetsInclude: ["**/*.md"],
     server: {
-      open: true,
-      port: 3000,
+      open: false,
+      port: 8080,
+      host: "0.0.0.0",
       proxy: getProxy(),
+      cors: true,
+      allowedHosts: true,
     },
     resolve: {
       alias: {
@@ -64,6 +89,3 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
-
-
-

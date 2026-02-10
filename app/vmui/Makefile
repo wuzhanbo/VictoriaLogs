@@ -33,3 +33,18 @@ vmui-typecheck:
 
 vmui-test:
 	NPM_COMMAND="npm run test" $(MAKE) vmui-run-npm-command
+
+vmui-dev:
+	docker run -d \
+		--name vmui-dev \
+		-p 8080:8080 \
+		--mount type=bind,src="$(shell pwd)/app/vmui",dst=/build \
+		--mount type=bind,src="$(shell pwd)/docs",dst=/docs \
+		-w /build/packages/vmui \
+		-e PLAYGROUND=LOCAL \
+		--entrypoint=/bin/sh \
+		node:22.20-alpine \
+		-c "[ -d node_modules ] || npm ci; npm start"
+
+vmui-dev-stop:
+	docker stop vmui-dev && docker rm vmui-dev

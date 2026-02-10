@@ -1,0 +1,20 @@
+# vlagent configuration for collecting JSON logs
+server:
+  http:
+    listen_addr: :8429
+
+# Read logs from file
+file:
+  - path: /logs/app-logs.json
+    follow: true
+    format: json
+    labels:
+      job: app-logs
+      env: dev
+
+# Send to VictoriaLogs
+remoteWrite:
+  - url: http://victorialogs:9428/insert/jsonline?_stream_fields=service,level
+    sendTimeout: 30s
+    maxBatchSize: 1000
+    maxBlockSize: 1048576
