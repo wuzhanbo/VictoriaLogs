@@ -6,7 +6,8 @@ import {
   PlayIcon,
   VisibilityOffIcon,
   VisibilityIcon,
-  DownloadIcon
+  DownloadIcon,
+  TreeIcon
 } from "../../../components/Main/Icons";
 import Tabs from "../../../components/Main/Tabs/Tabs";
 import "./style.scss";
@@ -18,6 +19,7 @@ import useSearchParamsFromObject from "../../../hooks/useSearchParamsFromObject"
 import LineLoader from "../../../components/Main/LineLoader/LineLoader";
 import GroupView from "../../../components/Views/GroupView/GroupView";
 import TableView from "../../../components/Views/TableView/TableView";
+import TreeView from "../../../components/Views/TreeView/TreeView";
 import JsonLogsView from "../../../components/Views/JsonView/JsonLogsView";
 import LiveTailingView from "../../../components/Views/LiveTailingView/LiveTailingView";
 import Tooltip from "../../../components/Main/Tooltip/Tooltip";
@@ -36,6 +38,7 @@ interface Props {
 enum DisplayType {
   group = "group",
   table = "table",
+  tree = "tree",
   json = "json",
   liveTailing = "liveTailing",
 }
@@ -43,6 +46,7 @@ enum DisplayType {
 const tabs = [
   { label: "Group", value: DisplayType.group, icon: <ListIcon/>, Component: GroupView },
   { label: "Table", value: DisplayType.table, icon: <TableIcon/>, Component: TableView },
+  { label: "Tree", value: DisplayType.tree, icon: <TreeIcon/>, Component: TreeView },
   { label: "JSON", value: DisplayType.json, icon: <CodeIcon/>, Component: JsonLogsView },
   { label: "Live", value: DisplayType.liveTailing, icon: <PlayIcon/>, Component: LiveTailingView },
 ];
