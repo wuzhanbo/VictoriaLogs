@@ -1,13 +1,9 @@
 import { FC, memo } from "preact/compat";
-import { Logs } from "../../../api/types";
+import { ViewProps } from "../../pages/QueryPage/QueryPageBody/types";
 import TreeLogs from "./TreeLogs";
 
-interface Props {
-  logs: Logs[];
-}
-
-const TreeView: FC<Props> = ({ logs }) => {
-  return <TreeLogs logs={logs} />;
+const TreeView: FC<ViewProps> = ({ data }) => {
+  return <TreeLogs logs={data} />;
 };
 
 export default memo(TreeView);

@@ -30,6 +30,11 @@ const TreeLogsItem: FC<Props> = ({ log }) => {
     });
   }, []);
 
+  const handleLeftClick = useCallback((e: Event) => {
+    // Click anywhere in left area to toggle
+    toggleMsgView(e);
+  }, [toggleMsgView]);
+
   const isExpandedPath = useCallback((path: string) => {
     return expandedPaths.current.has(path);
   }, []);
@@ -47,7 +52,10 @@ const TreeLogsItem: FC<Props> = ({ log }) => {
     <div className={classNames("vm-tree-logs-row", {
       "vm-tree-logs-row_dark": isDarkTheme
     })} data-testid="tree-logs-row">
-      <div className="vm-tree-logs-row__left">
+      <div 
+        className="vm-tree-logs-row__left"
+        onClick={handleLeftClick}
+      >
         <div className="vm-tree-logs-row__time">
           {formattedTime}
         </div>
