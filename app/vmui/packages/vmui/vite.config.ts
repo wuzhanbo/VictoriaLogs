@@ -47,7 +47,7 @@ const getProxy = (): Record<string, ProxyOptions> | undefined => {
           }
         },
         "^/api/lookup": {
-          target: "http://host.docker.internal:3001",
+          target: "http://vmui-lookup-server:3001",
           changeOrigin: true,
           configure: (proxy) => {
             proxy.on("error", (err) => {
