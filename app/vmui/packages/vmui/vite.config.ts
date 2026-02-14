@@ -45,6 +45,15 @@ const getProxy = (): Record<string, ProxyOptions> | undefined => {
               console.error("[proxy error]", err.message);
             });
           }
+        },
+        "^/api/lookup": {
+          target: "http://host.docker.internal:3001",
+          changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on("error", (err) => {
+              console.error("[proxy error]", err.message);
+            });
+          }
         }
       };
     }

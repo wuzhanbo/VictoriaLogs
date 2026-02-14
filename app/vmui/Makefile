@@ -33,3 +33,20 @@ vmui-typecheck:
 
 vmui-test:
 	NPM_COMMAND="npm run test" $(MAKE) vmui-run-npm-command
+
+# Lookup server for CSV upload feature
+lookup-server-install:
+	cd server && npm install
+
+lookup-server-start:
+	cd server && npm start
+
+lookup-server-start-docker:
+	docker run -d \
+		--name vmui-lookup-server \
+		-p 3001:3001 \
+		--mount type=bind,src="$(shell pwd)/app/vmui/server",dst=/app \
+		-w /app \
+		-e VICTORIA_LOGS_URL=http://victorialogs:9428 \
+		node:22-alpine \
+		npm start

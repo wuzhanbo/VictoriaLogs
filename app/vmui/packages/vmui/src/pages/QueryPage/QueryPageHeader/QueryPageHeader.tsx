@@ -14,6 +14,7 @@ import useBoolean from "../../../hooks/useBoolean";
 import { useQuickAutocomplete } from "../../../hooks/useQuickAutocomplete";
 import { AUTOCOMPLETE_QUICK_KEY } from "../../../components/Main/ShortcutKeys/constants/keyList";
 import Tooltip from "../../../components/Main/Tooltip/Tooltip";
+import CsvUpload from "../../../components/Main/CsvUpload/CsvUpload";
 
 interface Props {
   query: string;
@@ -143,6 +144,7 @@ const QueryPageHeader: FC<Props> = ({
           </div>
         )}
         <div className="vm-query-page-header-bottom-buttons">
+          <CsvUpload />
           <QueryHistory
             handleSelectQuery={handleSelectHistory}
             historyKey={"LOGS_QUERY_HISTORY"}
