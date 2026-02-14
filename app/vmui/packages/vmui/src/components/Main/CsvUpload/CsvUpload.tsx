@@ -65,20 +65,17 @@ const CsvUpload: FC<CsvUploadProps> = ({ onUploadSuccess }) => {
         throw new Error("No file or content provided");
       }
 
-      const result = await response.json();
-
-      if (result.success) {
-        setMessage({
-          type: "success",
-          text: `Uploaded "${result.filename}" with ${result.totalRows} rows`,
-        });
-        onUploadSuccess?.(result.filename, result.totalRows);
-      } else {
-        setMessage({
-          type: "error",
-          text: result.error || "Upload failed",
-        });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `Server returned ${response.status}`);
       }
+
+      const result = await response.json();
+      setMessage({
+        type: "success",
+        text: `Uploaded "${result.filename}" with ${result.totalRows} rows`,
+      });
+      onUploadSuccess?.(result.filename, result.totalRows);
     } catch (err) {
       setMessage({
         type: "error",
@@ -120,43 +117,44 @@ const CsvUpload: FC<CsvUploadProps> = ({ onUploadSuccess }) => {
           {message.text}
         </span>
       )}
-      <Modal
-        isOpen={showModal}
-        onClose={handleClose}
-        title="Upload CSV for Lookup"
-      >
-        <div className="vm-csv-upload__modal">
-          <div className="vm-csv-upload__modal-section">
-            <h4>Option 1: Upload File</h4>
-            <Button onClick={handleFileUpload}>
-              Choose CSV File
-            </Button>
+      {showModal && (
+        <Modal
+          onClose={handleClose}
+          title="Upload CSV for Lookup"
+        >
+          <div className="vm-csv-upload__modal">
+            <div className="vm-csv-upload__modal-section">
+              <h4>Option 1: Upload File</h4>
+              <Button onClick={handleFileUpload}>
+                Choose CSV File
+              </Button>
+            </div>
+            <div className="vm-csv-upload__modal-divider">OR</div>
+            <div className="vm-csv-upload__modal-section">
+              <h4>Option 2: Paste CSV Content</h4>
+              <TextField
+                label="Filename"
+                value={filename}
+                onChange={setFilename}
+                placeholder="e.g., users"
+              />
+              <TextField
+                label="CSV Content"
+                type="textarea"
+                value={csvContent}
+                onChange={setCsvContent}
+                placeholder={"name,email,role\nJohn Doe,john@example.com,admin\nJane Smith,jane@example.com,user"}
+              />
+              <Button
+                onClick={handlePasteSubmit}
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Upload"}
+              </Button>
+            </div>
           </div>
-          <div className="vm-csv-upload__modal-divider">OR</div>
-          <div className="vm-csv-upload__modal-section">
-            <h4>Option 2: Paste CSV Content</h4>
-            <TextField
-              label="Filename"
-              value={filename}
-              onChange={setFilename}
-              placeholder="e.g., users"
-            />
-            <TextField
-              label="CSV Content"
-              type="textarea"
-              value={csvContent}
-              onChange={setCsvContent}
-              placeholder={"name,email,role\nJohn Doe,john@example.com,admin\nJane Smith,jane@example.com,user"}
-            />
-            <Button
-              onClick={handlePasteSubmit}
-              disabled={isUploading}
-            >
-              {isUploading ? "Uploading..." : "Upload"}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 };

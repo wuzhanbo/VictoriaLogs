@@ -53,8 +53,17 @@ async function sendBatchToVictoriaLogs(rows, lookupName) {
   }
 }
 
+// Only apply multer for multipart/form-data requests (file uploads)
+const optionalFileUpload = (req, res, next) => {
+  if (req.is('multipart/form-data')) {
+    upload.single('file')(req, res, next);
+  } else {
+    next();
+  }
+};
+
 // Upload CSV and send to VictoriaLogs
-app.post('/api/lookup/upload', upload.single('file'), async (req, res) => {
+app.post('/api/lookup/upload', optionalFileUpload, async (req, res) => {
   let stream;
   let filename;
 
