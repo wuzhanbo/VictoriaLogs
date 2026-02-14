@@ -37,10 +37,14 @@ function parseCsvStream(stream) {
 // Send all rows to VictoriaLogs as a single NDJSON batch
 async function sendBatchToVictoriaLogs(rows, lookupName) {
   const ndjson = rows
-    .map((row) => JSON.stringify({ ...row, _lookup: lookupName }))
+    .map((row) => JSON.stringify({
+      ...row,
+      _lookup: lookupName,
+      _msg: Object.values(row).join(' '),
+    }))
     .join('\n');
 
-  const url = `${VICTORIA_LOGS_URL}/insert/jsonline?_stream_fields=_lookup`;
+  const url = `${VICTORIA_LOGS_URL}/insert/jsonline?_stream_fields=_lookup&_msg_field=_msg`;
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/stream+json' },
