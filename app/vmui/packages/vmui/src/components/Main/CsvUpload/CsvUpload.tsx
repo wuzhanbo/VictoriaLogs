@@ -107,10 +107,11 @@ const CsvUpload: FC<CsvUploadProps> = ({ onUploadSuccess }) => {
         style={{ display: "none" }}
       />
       <Button
+        className="vm-header-button"
         onClick={handleClick}
         disabled={isUploading}
       >
-        {isUploading ? "Uploading..." : "Upload CSV"}
+        {isUploading ? "Uploading..." : "Upload Lookup"}
       </Button>
       {message && (
         <span className={`vm-csv-upload__message vm-csv-upload__message_${message.type}`}>
@@ -120,7 +121,8 @@ const CsvUpload: FC<CsvUploadProps> = ({ onUploadSuccess }) => {
       {showModal && (
         <Modal
           onClose={handleClose}
-          title="Upload CSV for Lookup"
+          title="Upload Lookup Data"
+          className="vm-csv-upload-modal"
         >
           <div className="vm-csv-upload__modal">
             <div className="vm-csv-upload__modal-section">

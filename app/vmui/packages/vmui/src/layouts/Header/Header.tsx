@@ -12,6 +12,7 @@ import SidebarHeader from "./SidebarNav/SidebarHeader";
 import HeaderControls, { ControlsProps } from "./HeaderControls/HeaderControls";
 import useDeviceDetect from "../../hooks/useDeviceDetect";
 import useWindowSize from "../../hooks/useWindowSize";
+import CsvUpload from "../../components/Main/CsvUpload/CsvUpload";
 
 export interface HeaderProps {
   controlsComponent: ComponentType<ControlsProps>
@@ -78,6 +79,7 @@ const Header: FC<HeaderProps> = ({ controlsComponent }) => {
           color={color}
           background={background}
         />
+        <CsvUpload />
       </>
     )}
     {displaySidebar && (

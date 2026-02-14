@@ -1,3 +1,11 @@
+.vm-csv-upload-modal {
+  .vm-modal-content {
+    min-width: 500px;
+    width: 40vw;
+    max-width: 640px;
+  }
+}
+
 .vm-csv-upload {
   display: flex;
   align-items: center;
