@@ -51,12 +51,12 @@ const CsvUpload: FC<CsvUploadProps> = ({ onUploadSuccess }) => {
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
-        response = await fetch("/api/lookup/upload", {
+        response = await fetch("/insert/lookup", {
           method: "POST",
           body: formData,
         });
       } else if (content) {
-        response = await fetch("/api/lookup/upload", {
+        response = await fetch("/insert/lookup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ filename: name, content }),

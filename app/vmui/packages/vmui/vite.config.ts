@@ -46,8 +46,8 @@ const getProxy = (): Record<string, ProxyOptions> | undefined => {
             });
           }
         },
-        "^/api/lookup": {
-          target: "http://vmui-lookup-server:3001",
+        "^/insert/lookup": {
+          target: "http://vmui-backend:3001",
           changeOrigin: true,
           configure: (proxy) => {
             proxy.on("error", (err) => {
